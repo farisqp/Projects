@@ -1,0 +1,141 @@
+// Main controller class of the system.
+// Aggregates Person and Dish objects (Aggregation).
+// Composes Order objects (Composition).
+
+class Restaurant {
+    private String name;
+    private Person[] people;
+    private Dish[] menu;
+    private Order[] orders;
+    private int nPeople;
+    private int nMenu;
+    private int nOrders;
+
+    public Restaurant(String name, int maxPeople, int maxMenu, int maxOrders) {
+        this.name = name;
+        people = new Person[maxPeople];
+        menu = new Dish[maxMenu];
+        orders = new Order[maxOrders];
+        nPeople = 0;
+        nMenu = 0;
+        nOrders = 0;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public boolean addPerson(Person p) {
+        if (p == null || nPeople >= people.length) return false;
+        if (findPersonIndexById(p.getId()) != -1) return false;
+        people[nPeople] = p;
+        nPeople++;
+        return true;
+    }
+
+    public int findPersonIndexById(String id) {
+        for (int i = 0; i < nPeople; i++) {
+            if (people[i].getId().equalsIgnoreCase(id)) return i;
+        }
+        return -1;
+    }
+
+    public Person getPersonById(String id) {
+        int index = findPersonIndexById(id);
+        if (index == -1) return null;
+        return people[index];
+    }
+
+    public boolean removePersonById(String id) {
+        int index = findPersonIndexById(id);
+        if (index == -1) return false;
+        people[index] = people[nPeople - 1];
+        people[nPeople - 1] = null;
+        nPeople--;
+        return true;
+    }
+
+    public void listPeople() {
+        if (nPeople == 0) {
+            System.out.println("No people yet.");
+            return;
+        }
+        for (int i = 0; i < nPeople; i++) {
+            System.out.println((i + 1) + ") " + people[i]);
+        }
+    }
+
+    public boolean addDishToMenu(Dish d) {
+        if (d == null || nMenu >= menu.length) return false;
+        if (findDishIndexByName(d.getName()) != -1) return false;
+        menu[nMenu] = d;
+        nMenu++;
+        return true;
+    }
+
+    public int findDishIndexByName(String name) {
+        for (int i = 0; i < nMenu; i++) {
+            if (menu[i].getName().equalsIgnoreCase(name)) return i;
+        }
+        return -1;
+    }
+
+    public Dish getDishByName(String name) {
+        int index = findDishIndexByName(name);
+        if (index == -1) return null;
+        return menu[index];
+    }
+
+    public boolean removeDishByName(String name) {
+        int index = findDishIndexByName(name);
+        if (index == -1) return false;
+        menu[index] = menu[nMenu - 1];
+        menu[nMenu - 1] = null;
+        nMenu--;
+        return true;
+    }
+
+    public void listMenu() {
+        if (nMenu == 0) {
+            System.out.println("Menu is empty.");
+            return;
+        }
+        for (int i = 0; i < nMenu; i++) {
+            System.out.println((i + 1) + ") " + menu[i]);
+        }
+    }
+
+    public boolean addOrder(Order o) {
+        if (o == null || nOrders >= orders.length) return false;
+        orders[nOrders] = o;
+        nOrders++;
+        return true;
+    }
+
+    public boolean removeOrderAt(int index1Based) {
+        int index = index1Based - 1;
+        if (index < 0 || index >= nOrders) return false;
+        orders[index] = orders[nOrders - 1];
+        orders[nOrders - 1] = null;
+        nOrders--;
+        return true;
+    }
+
+    public void listOrders() {
+        if (nOrders == 0) {
+            System.out.println("No orders yet.");
+            return;
+        }
+        for (int i = 0; i < nOrders; i++) {
+            System.out.println((i + 1) + ") " + orders[i].summary());
+        }
+    }
+
+    public double computeTotalPayroll() {
+        double sum = 0;
+        for (int i = 0; i < nPeople; i++) {
+            sum += people[i].computeSalary();
+        }
+        return sum;
+    }
+}

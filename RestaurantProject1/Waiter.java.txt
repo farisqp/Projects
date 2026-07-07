@@ -1,0 +1,26 @@
+// Concrete subclass of Employee.
+
+class Waiter extends Employee {
+    private int tips;
+
+    public Waiter(String name, String id, double baseSalary) {
+        super(name, id, baseSalary);
+        tips = 0;
+    }
+
+    public void addTip(int amount) {
+        if (amount > 0) {
+            tips += amount;
+        }
+    }
+
+    @Override
+    public double computeSalary() {
+        return baseSalary + tips;
+    }
+
+    @Override
+    public String toString() {
+        return "Waiter [id = " + id + ", name = " + name + ", baseSalary = " + baseSalary + ", tips = " + tips + "]";
+    }
+}

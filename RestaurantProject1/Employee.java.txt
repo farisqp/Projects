@@ -1,0 +1,19 @@
+// Abstract subclass of Person.
+// Parent of Waiter.
+
+abstract class Employee extends Person {
+    protected double baseSalary;
+
+    public Employee(String name, String id, double baseSalary) {
+        super(name, id);
+        this.baseSalary = baseSalary;
+    }
+
+    public double getBaseSalary() {
+        return baseSalary;
+    }
+
+    public void setBaseSalary(double baseSalary) {
+        this.baseSalary = baseSalary;
+    }
+}

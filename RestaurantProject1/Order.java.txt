@@ -1,0 +1,77 @@
+// Represents a customer’s order.
+// Composed of multiple Dish objects (Composition).
+// Associated with Customer (1..1) and Waiter (0..1).
+
+class Order {
+    private Dish[] items;
+    private int count;
+    private Customer customer;
+    private Waiter waiter;
+
+    public Order(Customer customer, Waiter waiter, int capacity) {
+        this.customer = customer;
+        this.waiter = waiter;
+        items = new Dish[capacity];
+        count = 0;
+        if (customer != null) {
+            customer.incOrders();
+        }
+    }
+
+    public boolean addDish(Dish d) {
+        if (d == null) return false;
+        if (count < items.length) {
+            items[count] = d;
+            count++;
+            return true;
+        }
+        return false;
+    }
+
+    public boolean removeDishByName(String name) {
+        int index = findDishIndexByName(name);
+        if (index == -1) 
+        	return false;
+        
+        items[index] = items[count - 1];
+        items[count - 1] = null;
+        count--;
+        return true;
+    }
+
+    public int findDishIndexByName(String name) {
+        if (name == null) return -1;
+        for (int i = 0; i < count; i++) {
+            if (items[i].getName().equalsIgnoreCase(name)) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    public double getTotal() {
+        double total = 0;
+        for (int i = 0; i < count; i++) {
+            total += items[i].getPrice();
+        }
+        return total;
+    }
+
+    public int size() {
+        return count;
+    }
+
+    public String summary() {
+        String s = "Order [customer = ";
+        s += (customer != null ? customer.getName() : "-");
+        s += ", waiter = ";
+        s += (waiter != null ? waiter.getName() : "-");
+        s += ", items = ";
+        for (int i = 0; i < count; i++) {
+            s += items[i].getName();
+            if (i < count - 1) s += ", ";
+        }
+        s += ", total = " + getTotal() + "]";
+        return s;
+    }
+}

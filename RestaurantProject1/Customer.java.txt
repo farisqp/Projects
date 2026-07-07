@@ -1,0 +1,29 @@
+// Subclass of Person.
+// Represents aggregation with Restaurant.
+
+class Customer extends Person {
+    private int totalOrders;
+
+    public Customer(String name, String id) {
+        super(name, id);
+        totalOrders = 0;
+    }
+
+    public void incOrders() {
+        totalOrders++;
+    }
+
+    public int getTotalOrders() {
+        return totalOrders;
+    }
+
+    @Override
+    public double computeSalary() {
+        return 0.0;
+    }
+
+    @Override
+    public String toString() {
+        return "Customer [id = " + id + ", name = " + name + ", totalOrders = " + totalOrders + "]";
+    }
+}

@@ -1,0 +1,23 @@
+public class TimeSlot implements ITimeSlot {
+    private IDateTime start;
+    private IDateTime end;
+
+    public TimeSlot(IDateTime start, IDateTime end) {
+        this.start = start;
+        this.end = end;
+    }
+
+    public IDateTime getStart() { return start; }
+    public IDateTime getEnd() { return end; }
+
+    public int compareTo(ITimeSlot other) {
+        if (this.end.compareTo(other.getStart()) <= 0) return -1;
+        if (this.start.compareTo(other.getEnd()) >= 0) return 1;
+        return 0;
+    }
+
+    @Override
+    public String toString() {
+        return start.format() + " - " + end.format();
+    }
+}
